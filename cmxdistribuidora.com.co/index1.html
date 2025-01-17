@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta de Satisfacción</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #9163cc38;
+        }
+
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            direction: ltr;
+            font-size: 0;
+        }
+
+        .star-rating label {
+            background-image: url('https://www.lineaestetica.co/wp-content/uploads/2024/04/cropped-ms-icon-310x310-2.png');
+            cursor: pointer;
+            background-size: cover;
+            width: 40px;
+            height: 40px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .star-rating input {
+            display: none;
+            /* Oculta los checkboxes */
+        }
+
+        /* Estilo para iluminar la estrella seleccionada y todas las anteriores */
+        .star-rating input:checked~label {
+            background-image: url('https://www.lineaestetica.co/wp-content/uploads/2024/04/cropped-ms-icon-310x310-1-selected.png');
+        }
+
+        .dark-lila {
+            color: #422962;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 container shadow p-4 mb-4 mt-4 bg-white rounded">
+                <form id="ratingForm" action="send_email.php" method="post" class="">
+                    <img class="img-fluid" src="https://www.esteticadrop.com/img/Logo-Linena-Estetica-2023.webp" alt="">
+                    <h2 class="text-center mb-4 dark-lila">Encuesta de Satisfacción</h2>
+                    <div class="form-group">
+                        <label for="nombre">Tu nombre completo:</label>
+                        <input type="text" id="nombre" name="nombre" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="punto_venta">Escribe el nombre del punto de venta asociado a la queja o
+                            sugerencia:</label>
+                        <input type="text" id="punto_venta" name="punto_venta" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Tu correo electrónico:</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefono">Tu número de teléfono:</label>
+                        <input type="tel" id="telefono" name="telefono" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿Cómo calificarías el servicio en nuestros puntos de venta?</label>
+                        <div class="star-rating">
+                            <span style="margin-right: 10px; font-size: 13px; margin-top: 13px;">Malo</span> <!-- Texto antes de la primera estrella -->
+                            <input type="checkbox" id="star1" name="rating[]" value="1"><label for="star1" title="1 estrella"></label>
+                            <input type="checkbox" id="star2" name="rating[]" value="2"><label for="star2" title="2 estrellas"></label>
+                            <input type="checkbox" id="star3" name="rating[]" value="3"><label for="star3" title="3 estrellas"></label>
+                            <input type="checkbox" id="star4" name="rating[]" value="4"><label for="star4" title="4 estrellas"></label>
+                            <input type="checkbox" id="star5" name="rating[]" value="5"><label for="star5" title="5 estrellas"></label>
+                            <span style="margin-left: 10px; font-size: 13px; margin-top: 13px;">Excelente</span> <!-- Texto después de la última estrella -->
+                        </div>
+                    </div>
+                    <!-- Parte relevante del formulario -->
+                    <div class="form-group">
+                        <label for="nuevocampo">¿Qué crees que nos hace diferentes?</label>
+                        <textarea id="nuevocampo" name="nuevocampo" rows="4" class="form-control"></textarea>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="sugerencias">¿Tienes alguna sugerencia que quieras compartir con nosotros sobre tu
+                            experiencia en Línea Estética?</label>
+                        <textarea id="sugerencias" name="sugerencias" rows="4" class="form-control"></textarea>
+                    </div>
+
+                    <div class="form-group form-check">
+                        <input type="checkbox" id="acepto" name="acepto" value="1" class="form-check-input" required>
+                        <label for="acepto" class="form-check-label">Acepto <a href="https://www.lineaestetica.co/politicas-de-tratamiento-de-datos-personales/" target="_blank">política de tratamiento de datos</a>
+                            personales</label>
+                    </div>
+
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-primary" value="ENVIAR">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Corregir el comportamiento de las estrellas usando checkboxes
+        document.querySelectorAll('.star-rating input').forEach((checkbox, index, checkboxes) => {
+            checkbox.addEventListener('change', function () {
+                if (this.checked) {
+                    // Activar todas las estrellas anteriores incluyendo la actual
+                    for (let i = 0; i <= index; i++) {
+                        checkboxes[i].checked = true;
+                        checkboxes[i].nextElementSibling.style.backgroundImage = "url('https://www.lineaestetica.co/wp-content/uploads/2024/04/cropped-ms-icon-310x310-1-selected.png')";
+                    }
+                } else {
+                    // Desactivar todas las estrellas posteriores incluyendo la actual
+                    for (let i = index; i < checkboxes.length; i++) {
+                        checkboxes[i].checked = false;
+                        checkboxes[i].nextElementSibling.style.backgroundImage = "url('https://www.lineaestetica.co/wp-content/uploads/2024/04/cropped-ms-icon-310x310-2.png')";
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
